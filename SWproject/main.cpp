@@ -8,8 +8,10 @@
 using namespace std;
 
 void gotoxy(int x, int y);
-char start_game(void);
+char select_menu(void);
+void start_game(void);
 void show_manual(void);
+void ColorSet(int backColor, int textColor);
 
 enum command
 {
@@ -18,14 +20,34 @@ enum command
 	QUIT
 };
 
+typedef enum ColorKinds
+{
+	black,
+	blue,
+	green,
+	skyblue,
+	red,
+	pink,
+	orange,
+	white,
+	gray,
+	lightblue,
+	brightgreen,
+	sky,
+	brightred,
+	brightpink,
+	brightyellow,
+	brightwhite
+}ColorKinds;
+
 int main()
 {
 	while (1)
 	{
-		switch (start_game())
+		switch (select_menu())
 		{
 		case GAMESTART:
-			cout << "1\n";
+			start_game();
 			break;
 		case MANUAL:
 			show_manual();
@@ -36,7 +58,7 @@ int main()
 	}
 }
 
-char start_game(void)
+char select_menu(void)
 {
 	system("cls");
 	cout << "Welcome!!\n";
@@ -47,6 +69,39 @@ char start_game(void)
 	char c;
 	cin >> c;
 	return c;
+}
+
+void start_game(void)
+{
+	system("cls");
+	gotoxy(0, 0);
+	ColorSet(0, brightyellow);
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	ColorSet(0, blue);
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "Some cyan colored text" << endl;
+	ColorSet(0, pink);
+	cout << "Add red background" << endl;
+	ColorSet(0, orange);
+	cout << "reset to default colors with NC" << endl;
+	ColorSet(0, white);
+
+	gotoxy(1, 1);
+	cout << " hello world ";
+
+	while (1)
+	{
+
+	}
 }
 
 void show_manual(void)
@@ -68,7 +123,13 @@ void show_manual(void)
 void gotoxy(int x, int y)
 {
 	COORD Pos;
-	Pos.X = 2 * x;
+	Pos.X = x;
 	Pos.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+
+void ColorSet(int backColor, int textColor)
+{
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(handle, (backColor << 4) + textColor);
 }
