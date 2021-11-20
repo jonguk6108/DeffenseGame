@@ -1,17 +1,22 @@
+//시소실3 실습
+//포커 타워 디펜스
+//이승태, 박종욱
+//2021-11-20
+
 #include<iostream>
 #include<Windows.h>
 #include<conio.h>
 #include<vector>
 #include<string>
 #include<ctime>
+#include"tile.h"
+#include "print_cout.h"
 
 using namespace std;
 
-void gotoxy(int x, int y);
 char select_menu(void);
 void start_game(void);
 void show_manual(void);
-void ColorSet(int backColor, int textColor);
 
 enum command
 {
@@ -19,26 +24,6 @@ enum command
 	MANUAL,
 	QUIT
 };
-
-typedef enum ColorKinds
-{
-	black,
-	blue,
-	green,
-	skyblue,
-	red,
-	pink,
-	orange,
-	white,
-	gray,
-	lightblue,
-	brightgreen,
-	sky,
-	brightred,
-	brightpink,
-	brightyellow,
-	brightwhite
-}ColorKinds;
 
 int main()
 {
@@ -61,7 +46,8 @@ int main()
 char select_menu(void)
 {
 	system("cls");
-	cout << "Welcome!!\n";
+	cout << "Welcome!! ctrl+마우스 휠을 이용하셔서 글자를 작게 해주시고\n";
+	cout << "			창 크기를 마우스 드래그로 늘려주세요!!\n";
 	cout << "Press 1 to start game!!\n";
 	cout << "Press 2 to see manual!!\n";
 	cout << "Press 3 to exit the game!!\n";
@@ -77,10 +63,10 @@ void start_game(void)
 	gotoxy(0, 0);
 	ColorSet(0, brightyellow);
 	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
-	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
-	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
-	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
-	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%*---%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%l*--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%ll*-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+	cout << "%%%lll*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
 	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
 	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
 	cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
@@ -96,12 +82,10 @@ void start_game(void)
 	ColorSet(0, white);
 
 	gotoxy(1, 1);
-	cout << " hello world ";
+	cout << " ";
 
-	while (1)
-	{
-
-	}
+	print();
+	while (1) {}
 }
 
 void show_manual(void)
@@ -118,18 +102,4 @@ void show_manual(void)
 		else			continue;
 	}
 	return;
-}
-
-void gotoxy(int x, int y)
-{
-	COORD Pos;
-	Pos.X = x;
-	Pos.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
-}
-
-void ColorSet(int backColor, int textColor)
-{
-	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(handle, (backColor << 4) + textColor);
 }
