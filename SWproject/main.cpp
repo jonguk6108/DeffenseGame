@@ -84,7 +84,10 @@ void start_game(void)
 	gotoxy(1, 1);
 	cout << " ";
 
-	print();
+	system("cls");
+	for(int i = 0; i < MAPX; i++)
+		for(int j = 0; j < MAPY; j++)
+			print_map(i, j);
 	while (1) {}
 }
 
