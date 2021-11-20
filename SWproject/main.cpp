@@ -24,6 +24,7 @@ using namespace std;
 char select_menu(void);
 void start_game(void);
 void show_manual(void);
+void game_over(void);
 
 enum command
 {
@@ -40,6 +41,7 @@ int main()
 		{
 		case GAMESTART:
 			start_game();
+			game_over();
 			break;
 		case MANUAL:
 			show_manual();
@@ -55,7 +57,7 @@ char select_menu(void)
 {
 	system("cls");
 	cout << "Welcome!! ctrl+마우스 휠을 이용하셔서 글자를 작게 해주시고\n";
-	cout << "			창 크기를 마우스 드래그로 늘려주세요!!\n";
+	cout << "창 크기를 마우스 드래그로 늘려주세요!!\n\n";
 
 	cout << "Press 1 to start game!!\n";
 	cout << "Press 2 to see manual!!\n";
@@ -79,17 +81,30 @@ void start_game(void)
 	// round
 	while (1)
 	{
+		int generate_time = 20;
+		int monster_number_max = 10;
+		int monster_number = 0;
+		int wait_time_max = 30;
+		int wait_time = 0;
+		int monster_type_num = 1;
 
-		//phase 2
+		//phase 2, generate tower
 
-		//phase 3
+		//phase 3, generate monster and remove
+		int i = 0;
 		vector<class monster> m;
-		for (int i = 0; i < 500; i++)
+		while(1)
 		{
 			// generate monster
-			if (i % 20 == 0)
+			if (monster_number == monster_number_max)
 			{
-				class monster m_tmp(round % 1);
+				wait_time++;
+				if (wait_time > wait_time_max)	return;
+			}
+			else if (i % generate_time == 0 && monster_number < monster_number_max)
+			{
+				monster_number++;
+				class monster m_tmp(round % monster_type_num);
 				m.push_back(m_tmp);
 			}
 
@@ -106,10 +121,28 @@ void start_game(void)
 				m[j].print_monster();
 
 			Sleep(100);
+			i++;
 		}
 
 		round++;
 	}
+}
+
+// game_over창
+void game_over(void)
+{
+	while (1)
+	{
+		system("cls");
+		cout << "GAME OVER!!\n";
+		cout << "press 1 button to return the start screen\n";
+
+		char c = '0';
+		cin >> c;
+		if (c == '1')	break;
+		else			continue;
+	}
+	return;
 }
 
 // 매뉴얼을 설명함
