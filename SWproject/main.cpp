@@ -9,7 +9,10 @@
 #include<vector>
 #include<string>
 #include<ctime>
+
+//맵 (타일)을 출력하며, 맵크기와 타일 크기에 대한 정보를 가짐.
 #include"tile.h"
+//프린트하는 위치 함수 gotoxy의 정보를 내장하고 있으며, 출력 글자의 색을 표시함.
 #include"print_cout.h"
 
 using namespace std;
@@ -43,6 +46,7 @@ int main()
 	}
 }
 
+// 첫 시작 실행창이며, 입력 받은 값에 따라 메뉴를 이동시킴
 char select_menu(void)
 {
 	system("cls");
@@ -58,6 +62,7 @@ char select_menu(void)
 	return c;
 }
 
+// 첫 스타트 화면
 void start_game(void)
 {
 	system("cls");
@@ -68,6 +73,7 @@ void start_game(void)
 	while (1) {}
 }
 
+// 매뉴얼을 설명함
 void show_manual(void)
 {
 	while (1)
