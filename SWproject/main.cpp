@@ -12,13 +12,6 @@
 #include"tile.h"
 #include"print_cout.h"
 
-#ifndef MAPX
-#define MAPX	7
-#define MAPY	6
-#define TILEX	16
-#define TILEY	8
-#endif
-
 using namespace std;
 
 char select_menu(void);
