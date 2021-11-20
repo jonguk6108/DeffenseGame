@@ -3,17 +3,21 @@
 //이승태, 박종욱
 //2021-11-20
 
-#include<iostream>
-#include<Windows.h>
-#include<conio.h>
-#include<vector>
-#include<string>
-#include<ctime>
+#include <iostream>
+#include <Windows.h>
+#include <conio.h>
+#include <vector>
+#include <string>
+#include <ctime>
 
+//data
+#include "data.h"
 //맵 (타일)을 출력하며, 맵크기와 타일 크기에 대한 정보를 가짐.
-#include"tile.h"
+#include "tile.h"
 //프린트하는 위치 함수 gotoxy의 정보를 내장하고 있으며, 출력 글자의 색을 표시함.
-#include"print_cout.h"
+#include "print_cout.h"
+//몬스터 class
+#include "monster.h"
 
 using namespace std;
 
@@ -65,12 +69,47 @@ char select_menu(void)
 // 첫 스타트 화면
 void start_game(void)
 {
+	// phase 1
 	system("cls");
 	for(int i = 0; i < MAPX; i++)
 		for(int j = 0; j < MAPY; j++)
 			print_map(i, j);
 
-	while (1) {}
+	int round = 1;
+	// round
+	while (1)
+	{
+
+		//phase 2
+
+		//phase 3
+		vector<class monster> m;
+		for (int i = 0; i < 500; i++)
+		{
+			// generate monster
+			if (i % 20 == 0)
+			{
+				class monster m_tmp(round % 1);
+				m.push_back(m_tmp);
+			}
+
+			// eliminate previous frame monster
+			for (size_t j = 0; j < m.size(); j++)
+				m[j].pre_frame_monster();
+
+			// monster moving
+			for (size_t j = 0; j < m.size(); j++)
+				m[j].moving_monster();
+
+			// monster print
+			for (size_t j = 0; j < m.size(); j++)
+				m[j].print_monster();
+
+			Sleep(100);
+		}
+
+		round++;
+	}
 }
 
 // 매뉴얼을 설명함

@@ -1,23 +1,10 @@
-#include "tile.h"
-#include "print_cout.h"
 #include<iostream>
 #include<Windows.h>
+#include "tile.h"
+#include "print_cout.h"
+#include "data.h"
 
 using namespace std;
-
-
-// 타일 클래스 (종류는 2가지로 구성됨 : 길, 설치위치
-class tile {
-public:
-	tile();
-	tile(int x_, int y_);
-	~tile();
-	void print_tile();
-
-private :
-	int x, y;
-	int** t;
-};
 
 tile::tile() : x(0), y(0) {
 	t = new int* [TILEX];

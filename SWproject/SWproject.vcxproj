@@ -142,10 +142,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="print_cout.cpp" />
     <ClCompile Include="tile.cpp" />
+    <ClCompile Include="monster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="print_cout.h" />
     <ClInclude Include="tile.h" />
+    <ClInclude Include="monster.h" />
+    <ClInclude Include="data.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
