@@ -18,6 +18,10 @@
 #include "print_cout.h"
 //∏ÛΩ∫≈Õ class
 #include "monster.h"
+//poker class
+#include "poker.h"
+//tower class
+#include "tower.h"
 
 using namespace std;
 
@@ -84,13 +88,19 @@ void start_game(void)
 		int generate_time = 20;
 		int monster_number_max = 10;
 		int monster_number = 0;
-		int wait_time_max = 30;
+		int wait_time_max = 100;
 		int wait_time = 0;
 		int monster_type_num = 1;
 
-		//phase 2, generate tower
+		// phase 2, generate tower
 
-		//phase 3, generate monster and remove
+		// poker
+		// int rank = poker();
+
+		// make tower
+		
+
+		// phase 3, generate monster and remove
 		int i = 0;
 		vector<class monster> m;
 		while(1)
