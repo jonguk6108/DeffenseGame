@@ -313,14 +313,13 @@ char card_dack_shape[CARDY][CARDX + 1] =
 };
 
 int check_rank();
-void print_card(int card);
 char string_rank[11][18] =
 {
 	//     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16   0
 		{ ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ', '\0' },
 		{ 'T','O','P',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' },
-		{ 'O','N','E',' ','F','A','I','R',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' },
-		{ 'T','W','O',' ','F','A','I','R',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' },
+		{ 'O','N','E',' ','P','A','I','R',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' },
+		{ 'T','W','O',' ','P','A','I','R',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' },
 		{ 'T','R','I','P','L','E',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' },
 		{ 'F','U','L','L',' ','H','O','U','S','E',' ',' ',' ',' ',' ',' ',' ','\0' },
 		{ 'S','T','R','A','I','G','H','T',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' },
@@ -329,6 +328,8 @@ char string_rank[11][18] =
 		{ 'S','T','R','A','I','G','H','T',' ','F','L','U','S','H',' ',' ',' ','\0' },
 		{ 'R','S','F',' ','R','S','F',' ','R','S','F',' ','R','S','F',' ',' ','\0' },
 };
+void print_card(int card);
+
 
 int poker() {
 	int dack[13 * 4];
@@ -390,15 +391,13 @@ int poker() {
 	//card rank check
 	int rank = check_rank();
 
-	while (1) {
-		for (int i = 0; i < 5; i++)
-			print_card(i);
-		gotoxy(CARDPOINTX, 1);
-		printf("        rank : %d / %s", rank, string_rank[rank]);
-		gotoxy(CARDPOINTX, 2);
-		printf("                                                       ");
-		Sleep(2000);
-	}
+	for (int i = 0; i < 5; i++)
+		print_card(i);
+	gotoxy(CARDPOINTX, 1);
+	printf("        rank : %d / %s", rank, string_rank[rank]);
+	gotoxy(CARDPOINTX, 2);
+	printf("                                                       ");
+
 	return rank;
 }
 
@@ -478,7 +477,7 @@ int check_rank() {
 	if (num_cnt[1] > 0)
 		rank = 1;
 	for (int i = 0; i < 5; i++)
-		if (cards[i][0] == 12)
+		if (cards[i][0] == 11)
 			rank = 2;
 	if (num_cnt[2] > 0)
 		rank = 2;
