@@ -30,6 +30,8 @@ int poker() {
 		cards[i][0] = dack[dack_num] / 4;
 		cards[i][1] = dack[dack_num] % 4;
 		cards[i][2] = 1;
+		for (int j = dack_num; j < 14 * 4 - 1; j++)
+			dack[j] = dack[j + 1];
 	}
 
 	//choose card lists
