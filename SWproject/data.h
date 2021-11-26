@@ -1,5 +1,6 @@
 #pragma once
 
+#define bullet_time		4
 #define TOWERX			9
 #define TOWERY			5
 #define MAPX			7

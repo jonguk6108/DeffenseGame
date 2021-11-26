@@ -70,3 +70,12 @@ void print_map(int x, int y) {
 	tiles.print_tile();
 	return;
 }
+
+int tile::get_tile_color(int x, int y) {
+	return t[x][y];
+}
+
+int get_map_color(int x, int y) {
+	tile tile_tmp(x / TILEX, y / TILEY);
+	return tile_tmp.get_tile_color(x % TILEX, y % TILEY);
+}

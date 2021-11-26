@@ -13,4 +13,9 @@ public:
 	void print_monster(void);
 	void moving_monster(void);
 	void pre_frame_monster(void);
+	int getx(void);
+	int gety(void);
+	int get_hp(void);
+	void set_hp(int h);
+
 };

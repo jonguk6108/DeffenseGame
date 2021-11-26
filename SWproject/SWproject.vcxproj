@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bullet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="poker.cpp" />
     <ClCompile Include="print_cout.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="tower.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bullet.h" />
     <ClInclude Include="poker.h" />
     <ClInclude Include="print_cout.h" />
     <ClInclude Include="tile.h" />

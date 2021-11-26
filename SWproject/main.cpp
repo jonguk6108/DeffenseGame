@@ -22,6 +22,8 @@
 #include "poker.h"
 //tower class
 #include "tower.h"
+//bullet class
+#include "bullet.h"
 
 using namespace std;
 
@@ -86,6 +88,8 @@ void start_game(void)
 {
 	int round = 1;
 	// round
+	int tower_map[MAPX - 2][MAPY - 2] = {0,};
+	vector <class tower> t;
 	while (1)
 	{
 		int generate_time = 20;
@@ -93,7 +97,7 @@ void start_game(void)
 		int monster_number = 0;
 		int wait_time_max = 100;
 		int wait_time = 0;
-		int monster_type_num = 1;
+		int monster_type_num = 10;
 
 		// phase 1, generate tower
 
@@ -102,14 +106,34 @@ void start_game(void)
 
 		// show map
 		show_map();
+
+		// tower print
+		for (int i = 0; i < t.size(); i++)	t[i].print_tower();
+
 		int x, y;
 		while (1)
 		{
 			gotoxy(0, TILEY * MAPY - 1);
 			cout << "put_tower_position: ";
 			cin >> x >> y;
-			if (x >= 0 && x < MAPX - 2 && y >= 0 && y < MAPY - 2)	break;
-			cout << "Wrong position!";
+			if (x >= 0 && x < MAPX - 2 && y >= 0 && y < MAPY - 2 && tower_map[x][y] == 0)	break;
+			if (x >= 0 && x < MAPX - 2 && y >= 0 && y < MAPY - 2 && tower_map[x][y])
+			{
+				cout << "Will you remove the tower and make a new one? (y/n): ";
+				char answer;
+				cin >> answer;
+
+				if (answer == 'y')
+				{
+					for (size_t j = 0; j < t.size(); j++)
+					{
+						if (t[j].get_original_x() == x && t[j].get_original_y() == y)
+							t.erase(t.begin() + j);
+					}
+					break;
+				}
+			}
+			else	cout << "Wrong position!";
 
 			ColorSet(black, black);
 			gotoxy(0, TILEY * MAPY - 1);
@@ -118,9 +142,9 @@ void start_game(void)
 		}
 
 		// make tower
-		vector<class tower> t;
 		class tower tower_tmp(rank, x, y);
 		t.push_back(tower_tmp);
+		tower_map[x][y] = rank;
 
 		// tower print
 		for (int i = 0; i < t.size(); i++)	t[i].print_tower();
@@ -128,12 +152,14 @@ void start_game(void)
 		// phase 2, generate monster and remove
 		int i = 0;
 		vector<class monster> m;
+		vector<class bullet> b;
 		while(1)
 		{
 			// generate monster
 			if (monster_number == monster_number_max)
 			{
 				wait_time++;
+				if (m.size() == 0)				break;
 				if (wait_time > wait_time_max)	return;
 			}
 			else if (i % generate_time == 0 && monster_number < monster_number_max)
@@ -141,6 +167,85 @@ void start_game(void)
 				monster_number++;
 				class monster m_tmp(round % monster_type_num);
 				m.push_back(m_tmp);
+			}
+			
+			// delete previous bullet
+			for (size_t j = 0; j < b.size(); j++)
+			{
+				int x = b[j].getx();
+				int y = b[j].gety();
+				int color_a = get_map_color(x, y);
+				int color_b = get_map_color(x+1, y);
+				b[j].pre_frame_bullet(color_a, color_b);
+			}
+
+			// minus bullet time && monster hp down
+			vector<class bullet>::iterator it_bullet;
+			for (it_bullet = b.begin(); it_bullet != b.end();)
+			{
+				int t = (*it_bullet).get_time();
+				if (t <= 0)
+				{
+					int a = (*it_bullet).get_attack();
+					int m_idx = (*it_bullet).get_monster_index();
+					int m_hp = m[m_idx].get_hp();
+					m[m_idx].set_hp(m_hp - a);
+					it_bullet = b.erase(it_bullet);
+				}
+				else
+				{
+					(*it_bullet).set_time(t - 1);
+					it_bullet++;
+				}
+			}
+
+			// delete monsters && bullets
+			vector<class monster>::iterator it_monster;
+			for (it_monster = m.begin(); it_monster != m.end();)
+			{
+				if ((*it_monster).get_hp() <= 0)
+				{
+					int m_idx = distance(m.begin(), it_monster);
+					vector<class bullet>::iterator it_bullet;
+					for (it_bullet = b.begin(); it_bullet != b.end();)
+					{
+						if ((*it_bullet).get_monster_index() == m_idx)			it_bullet = b.erase(it_bullet);
+						else if ((*it_bullet).get_monster_index() > m_idx)		(*it_bullet).set_monster_index((*it_bullet).get_monster_index() - 1);
+						else													it_bullet++;
+					}
+					(*it_monster).pre_frame_monster();
+					it_monster = m.erase(it_monster);
+				}
+				else	it_monster++;
+			}
+
+			// tower throw bullets
+			for (size_t j = 0; j < t.size(); j++)
+			{
+				int l = t[j].get_latency();
+				int tx = t[j].getx();
+				int ty = t[j].gety();
+				if (l == 0)
+				{
+					if (m.size() == 0)	continue;
+					int min_index = 0;
+					int min = 9999999;
+					for (size_t k = 0; k < m.size(); k++)
+					{
+						int mx = m[k].getx();
+						int my = m[k].gety();
+						int dis = (tx - mx) * (tx - mx) + (ty - my) * (ty - my);
+						if (min > dis)
+						{
+							min = dis;
+							min_index = k;
+						}
+					}
+					class bullet bullet_tmp(tx, ty, m[min_index].getx(), m[min_index].gety(), min_index, t[j].get_power());
+					b.push_back(bullet_tmp);
+					t[j].set_latency(t[j].get_main_latency());
+				}
+				else			t[j].set_latency(l-1);
 			}
 
 			// eliminate previous frame monster
@@ -151,9 +256,12 @@ void start_game(void)
 			for (size_t j = 0; j < m.size(); j++)
 				m[j].moving_monster();
 
-			// monster print
+			// monster, bullet print
 			for (size_t j = 0; j < m.size(); j++)
 				m[j].print_monster();
+
+			for (size_t j = 0; j < b.size(); j++)
+				b[j].bullet_print();
 
 			Sleep(200);
 			i++;

@@ -68,7 +68,7 @@ int py[4] = {1,0,-1,0};
 monster::monster(int t) : type(t), cx(TILEX/2), cy(TILEY/2 + 1), sx(TILEX/2 - MONSTERX/2), sy(TILEY/2 - MONSTERY/2 + 1)
 {
 	dir = 0;
-	hp = (t + 1) * 10;
+	hp = t * 20;
 	latency = 1;
 }
 
@@ -82,7 +82,7 @@ void monster::print_monster(void)
 		gotoxy(sx, sy + i);
 		for (int j = 0; j < MONSTERX; j++)
 		{
-			ColorSet(monster_shape[type][dir][i][j], 0);
+			ColorSet(monster_shape[0][dir][j][i], 0);
 			printf(" ");
 		}
 	}
@@ -120,3 +120,7 @@ void monster::pre_frame_monster(void)
 	ColorSet(0, white);
 }
 
+int monster::getx(void) { return cx; }
+int monster::gety(void) { return cy; }
+int monster::get_hp(void) { return hp; }
+void monster::set_hp(int h) { hp = h; }
