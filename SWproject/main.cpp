@@ -63,12 +63,16 @@ int main()
 char select_menu(void)
 {
 	system("cls");
+	for (int i = 0; i < CARDPOINTX + (CARDX + 4) * 5 + 3; i++)
+		cout << "*";
+	cout << "\n";
 	cout << "Welcome!! ctrl+마우스 휠을 이용하셔서 글자를 작게 해주시고\n";
 	cout << "창 크기를 마우스 드래그로 늘려주세요!!\n\n";
 
 	cout << "Press 1 to start game!!\n";
 	cout << "Press 2 to see manual!!\n";
 	cout << "Press 3 to exit the game!!\n";
+
 
 	char c;
 	cin >> c;

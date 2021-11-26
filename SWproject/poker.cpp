@@ -330,8 +330,19 @@ char string_rank[11][18] =
 };
 void print_card(int card);
 
+void poker_init() {
+	for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 3; j++)
+			cards[i][j] = 0;
+	for (int i = 0; i < 13; i++)
+		card_num[i] = 0;
+	for (int i = 0; i < 4; i++)
+		card_color[i] = 0;
+}
 
 int poker() {
+	poker_init();
+
 	int dack[13 * 4];
 	int dack_size = 13 * 4;
 	srand(time(NULL));
@@ -370,6 +381,17 @@ int poker() {
 		char num;
 		cin >> num;
 		num--;
+
+		// jokbo tesk code
+		if (num == (']' - 1)) {
+			for (int i = 0; i < 5; i++) {
+				cards[i][1] = 0;
+				cards[i][2] = 0;
+				cards[i][0] = i + 9;
+				if (i == 4)
+					cards[i][0] = 8;
+			}
+		}
 
 		if (num == ('0' - 1))
 			break;
@@ -439,7 +461,7 @@ int check_straight() {
 		if (card_num[i] == 1) {
 			cnt = 1;
 			for (int j = 0; j < 4; j++)
-				if (card_num[j % 13] == 1)
+				if (card_num[(i + 1 + j) % 13] == 1)
 					cnt++;
 			if (cnt == 5)
 				return i;
@@ -493,7 +515,7 @@ int check_rank() {
 		rank = 7;
 
 	for (int i = 0; i < 4; i++)
-		if (card_color[i] == 4) {
+		if (card_color[i] == 5) {
 			rank = 8;
 			if (check_straight() != 0)
 				rank = 9;
