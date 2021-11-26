@@ -29,6 +29,7 @@ char select_menu(void);
 void start_game(void);
 void show_manual(void);
 void game_over(void);
+void show_map(void);
 
 enum command
 {
@@ -72,15 +73,17 @@ char select_menu(void)
 	return c;
 }
 
+void show_map(void)
+{
+	system("cls");
+	for (int i = 0; i < MAPX; i++)
+		for (int j = 0; j < MAPY; j++)
+			print_map(i, j);
+}
+
 // 첫 스타트 화면
 void start_game(void)
 {
-	// phase 1
-	system("cls");
-	for(int i = 0; i < MAPX; i++)
-		for(int j = 0; j < MAPY; j++)
-			print_map(i, j);
-
 	int round = 1;
 	// round
 	while (1)
@@ -92,15 +95,37 @@ void start_game(void)
 		int wait_time = 0;
 		int monster_type_num = 1;
 
-		// phase 2, generate tower
+		// phase 1, generate tower
 
 		// poker
-		// int rank = poker();
+		int rank = 1;
+
+		// show map
+		show_map();
+		int x, y;
+		while (1)
+		{
+			gotoxy(0, TILEY * MAPY - 1);
+			cout << "put_tower_position: ";
+			cin >> x >> y;
+			if (x >= 0 && x < MAPX - 2 && y >= 0 && y < MAPY - 2)	break;
+			cout << "Wrong position!";
+
+			ColorSet(black, black);
+			gotoxy(0, TILEY * MAPY - 1);
+			cout << "                                 ";
+			ColorSet(black, white);
+		}
 
 		// make tower
-		
+		vector<class tower> t;
+		class tower tower_tmp(rank, x, y);
+		t.push_back(tower_tmp);
 
-		// phase 3, generate monster and remove
+		// tower print
+		for (int i = 0; i < t.size(); i++)	t[i].print_tower();
+
+		// phase 2, generate monster and remove
 		int i = 0;
 		vector<class monster> m;
 		while(1)
@@ -130,7 +155,7 @@ void start_game(void)
 			for (size_t j = 0; j < m.size(); j++)
 				m[j].print_monster();
 
-			Sleep(100);
+			Sleep(200);
 			i++;
 		}
 

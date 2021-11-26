@@ -1,5 +1,7 @@
 #pragma once
 
+#define TOWERX			9
+#define TOWERY			5
 #define MAPX			7
 #define MAPY			6
 #define TILEX			17
