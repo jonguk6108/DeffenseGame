@@ -19,10 +19,10 @@ int poker() {
 	system("cls");
 
 	int dack[13 * 4];
-	int dack_size = 14 * 4;
+	int dack_size = 13 * 4;
 	srand(time(NULL));
 
-	for (int i = 0; i < 14 * 4; i++)
+	for (int i = 0; i < 13 * 4; i++)
 		dack[i] = i;
 
 	for (int i = 0; i < 5; i++) {
@@ -30,7 +30,7 @@ int poker() {
 		cards[i][0] = dack[dack_num] / 4;
 		cards[i][1] = dack[dack_num] % 4;
 		cards[i][2] = 1;
-		for (int j = dack_num; j < 14 * 4 - 1; j++)
+		for (int j = dack_num; j < 13 * 4 - 1; j++)
 			dack[j] = dack[j + 1];
 	}
 
