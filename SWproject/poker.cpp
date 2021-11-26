@@ -67,6 +67,8 @@ int poker() {
 			cards[num - '0'][0] = dack[dack_num] / 4;
 			cards[num - '0'][1] = dack[dack_num] % 4;
 			cards[num - '0'][2]--;
+			for (int j = dack_num; j < 13 * 4 - 1; j++)
+				dack[j] = dack[j + 1];
 		}
 	}
 
@@ -119,10 +121,6 @@ int check_rank() {
 		card_num[cards[i][0]]++;
 		card_color[cards[i][1]]++;
 	}
-	int color_cnt = 0;
-	for (int i = 0; i < 4; i++)
-		if (card_color[i] == 1)
-			color_cnt++;
 
 	// 0 , 1,  2,  3,    4
 	// 0개 1개, 2개, 3개,4개
@@ -148,12 +146,13 @@ int check_rank() {
 	if (num_cnt[4] > 0)
 		rank = 7;
 
-	if (color_cnt == 4) {
-		rank = 8;
-		if (check_straight() != 0)
-			rank = 9;
-		if (check_straight() == 9)
-			rank = 10;
-	}
+	for (int i = 0; i < 4; i++)
+		if (card_color[i] == 4) {
+			rank = 8;
+			if (check_straight() != 0)
+				rank = 9;
+			if (check_straight() == 9)
+				rank = 10;
+		}
 	return rank;
 }
