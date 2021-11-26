@@ -6,7 +6,11 @@
 #define TILEY			9
 #define MONSTERX		11
 #define MONSTERY		5
-#define CARDX			11
-#define CARDY			17
-#define CARDPOINTX		50
-#define CARDPOINTY		10
+
+#define CARDPOINTX		140
+#define CARDPOINTY		3
+#define CARDX			17
+#define CARDY			13
+
+#define SHAPEPOINTX		CARDPOINTX
+#define SHAPEPOINTY		CARDPOINTY + CARDY + 3
