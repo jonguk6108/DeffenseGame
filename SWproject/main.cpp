@@ -102,44 +102,7 @@ void start_game(void)
 		// phase 1, generate tower
 
 		// poker
-		int rank = poker();
-
-		// show map
-		show_map();
-
-		// tower print
-		for (int i = 0; i < t.size(); i++)	t[i].print_tower();
-
-		int x, y;
-		while (1)
-		{
-			gotoxy(0, TILEY * MAPY - 1);
-			cout << "put_tower_position: ";
-			cin >> x >> y;
-			if (x >= 0 && x < MAPX - 2 && y >= 0 && y < MAPY - 2 && tower_map[x][y] == 0)	break;
-			if (x >= 0 && x < MAPX - 2 && y >= 0 && y < MAPY - 2 && tower_map[x][y])
-			{
-				cout << "Will you remove the tower and make a new one? (y/n): ";
-				char answer;
-				cin >> answer;
-
-				if (answer == 'y')
-				{
-					for (size_t j = 0; j < t.size(); j++)
-					{
-						if (t[j].get_original_x() == x && t[j].get_original_y() == y)
-							t.erase(t.begin() + j);
-					}
-					break;
-				}
-			}
-			else	cout << "Wrong position!";
-
-			ColorSet(black, black);
-			gotoxy(0, TILEY * MAPY - 1);
-			cout << "                                 ";
-			ColorSet(black, white);
-		}
+		// int rank = poker();
 
 		// make tower
 		class tower tower_tmp(rank, x, y);
