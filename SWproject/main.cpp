@@ -95,7 +95,7 @@ void start_game(void)
 		// phase 2, generate tower
 
 		// poker
-		// int rank = poker();
+		int rank = poker();
 
 		// make tower
 		
