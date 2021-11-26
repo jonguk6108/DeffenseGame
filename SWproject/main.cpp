@@ -102,7 +102,7 @@ void start_game(void)
 		// phase 1, generate tower
 
 		// poker
-		int rank = 1;
+		int rank = poker();
 
 		// show map
 		show_map();
