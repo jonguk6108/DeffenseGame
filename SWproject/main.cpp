@@ -181,7 +181,7 @@ void start_game(void)
 				if (x > TILEX && y > TILEY &&
 					x < (MAPX - 1) * TILEX && y < (MAPY - 1) * TILEY &&
 					tower_map[x / TILEX][y / TILEY] &&
-					x % TILEX > 4 && x % TILEX < TILEX - 4
+					x % TILEX > 4 && x % TILEX < TILEX - 4 &&
 					y % TILEY > 2 && x % TILEY < TILEY - 2)	continue;
 				color_a = get_map_color(x, y);
 				color_b = get_map_color(x + 1, y);
