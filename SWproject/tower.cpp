@@ -10,7 +10,7 @@ ox(x), oy(y),
 sx(TILEX* (x + 1) + 4), sy(TILEY* (y + 1) + 2),
 cx(TILEX* (x + 1) + TILEX / 2), cy(TILEY* (y + 1) + TILEY / 2)
 {
-	main_latency = 1 < 5 - rank ? 5 - rank : 1;
+	main_latency = 1 < 8 - rank ? 8 - rank : 1;
 }
 
 int tower_shape[10][TOWERX][TOWERY] =
@@ -134,7 +134,7 @@ void tower::print_tower()
 		gotoxy(sx, sy + i);
 		for (int j = 0; j < TOWERX; j++)
 		{
-			ColorSet(tower_shape[level][i][j], 0);
+			ColorSet(tower_shape[level][j][i], 0);
 			printf(" ");
 		}
 	}

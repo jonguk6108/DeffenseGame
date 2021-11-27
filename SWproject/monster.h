@@ -4,7 +4,7 @@ class monster
 {
 private:
 	//center x, y, start x, y
-	int cx, cy, sx, sy, hp, latency, type, dir;
+	int cx, cy, sx, sy, hp, latency, type, dir, max_latency;
 	
 public:
 	monster(int t);

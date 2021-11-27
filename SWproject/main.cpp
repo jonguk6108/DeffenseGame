@@ -96,10 +96,10 @@ void start_game(void)
 	vector <class tower> t;
 	while (1)
 	{
-		int generate_time = 20;
+		int generate_time = 30;
 		int monster_number_max = 10;
 		int monster_number = 0;
-		int wait_time_max = 100;
+		int wait_time_max = 200;
 		int wait_time = 0;
 		int monster_type_num = 10;
 
@@ -178,22 +178,24 @@ void start_game(void)
 				int x = b[j].getx();
 				int y = b[j].gety();
 				int color_a, color_b;
+				
 				if (x > TILEX && y > TILEY &&
 					x < (MAPX - 1) * TILEX && y < (MAPY - 1) * TILEY &&
 					tower_map[x / TILEX - 1][y / TILEY - 1] &&
 					(x % TILEX) > 3 && (x % TILEX) < (TILEX - 4) &&
 					(y % TILEY) > 1 && (y % TILEY) < (TILEY - 2))
 				{
-					color_a = get_tower_color(tower_map[x / TILEX - 1][y / TILEY - 1] - 1, x % TILEX - 3, y % TILEY - 2);
+					color_a = get_tower_color(tower_map[x / TILEX - 1][y / TILEY - 1] - 1, (x % TILEX) - 4, (y % TILEY) - 2);
 				}
 				else	color_a = get_map_color(x, y);
+
 				if ((x + 1) > TILEX && y > TILEY &&
 					(x + 1) < (MAPX - 1) * TILEX && y < (MAPY - 1) * TILEY &&
 					tower_map[(x + 1) / TILEX - 1][y / TILEY - 1] &&
 					((x+1) % TILEX) > 3 && ((x+1) % TILEX) < (TILEX - 4) &&
-					(y % TILEY) > 1 && y % TILEY < (TILEY - 2))
+					(y % TILEY) > 1 && (y % TILEY) < (TILEY - 2))
 				{
-					color_b = get_tower_color(tower_map[(x+1) / TILEX - 1][y / TILEY - 1] - 1, ((x+1) % TILEX) - 3, (y % TILEY) - 2;
+					color_b = get_tower_color(tower_map[(x+1) / TILEX - 1][y / TILEY - 1] - 1, ((x+1) % TILEX) - 4, (y % TILEY) - 2);
 				}
 				else	color_b = get_map_color(x+1, y);
 
@@ -265,7 +267,7 @@ void start_game(void)
 						}
 					}
 					int predict_x, predict_y;
-					m[min_index].predict_moving_monster(5, predict_x, predict_y);
+					m[min_index].predict_moving_monster(2, predict_x, predict_y);
 					class bullet bullet_tmp(tx, ty, predict_x, predict_y, min_index, t[j].get_power());
 					b.push_back(bullet_tmp);
 					t[j].set_latency(t[j].get_main_latency());
@@ -291,7 +293,7 @@ void start_game(void)
 			while (1)
 			{
 				end = clock();
-				if ((double)(end - start) >= 200)	break;
+				if ((double)(end - start) >= 100)	break;
 			}
 
 			i++;

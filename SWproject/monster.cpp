@@ -69,7 +69,8 @@ monster::monster(int t) : type(t), cx(TILEX/2), cy(TILEY/2 + 1), sx(TILEX/2 - MO
 {
 	dir = 0;
 	hp = t * t * 10 + 5 * t + 5;
-	latency = 1;
+	max_latency = 2;
+	latency = 2;
 }
 
 int monster::get_latency(void) { return latency; }
@@ -91,6 +92,12 @@ void monster::print_monster(void)
 
 void monster::moving_monster(void)
 {
+	if (latency != 0)
+	{
+		latency--;
+		return;
+	}
+
 	int EDGE_X1 = TILEX / 2;
 	int EDGE_X2 = (MAPX - 1)* TILEX + TILEX / 2;
 	int EDGE_Y1 = TILEY / 2;
@@ -104,6 +111,8 @@ void monster::moving_monster(void)
 	cy = cy + py[dir];
 	sx = sx + px[dir];
 	sy = sy + py[dir];
+
+	latency = max_latency;
 }
 
 void monster::predict_moving_monster(int n, int &tmp_cx, int &tmp_cy)
