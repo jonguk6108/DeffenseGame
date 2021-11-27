@@ -92,12 +92,6 @@ void monster::print_monster(void)
 
 void monster::moving_monster(void)
 {
-	if (latency != 0)
-	{
-		latency--;
-		return;
-	}
-
 	int EDGE_X1 = TILEX / 2;
 	int EDGE_X2 = (MAPX - 1)* TILEX + TILEX / 2;
 	int EDGE_Y1 = TILEY / 2;
@@ -111,8 +105,6 @@ void monster::moving_monster(void)
 	cy = cy + py[dir];
 	sx = sx + px[dir];
 	sy = sy + py[dir];
-
-	latency = max_latency;
 }
 
 void monster::predict_moving_monster(int n, int &tmp_cx, int &tmp_cy)
@@ -142,7 +134,7 @@ void monster::pre_frame_monster(void)
 {
 	if (dir == 0)
 	{
-		gotoxy(sx, sy);
+		gotoxy(sx, sy - 1);
 		for (int i = 0; i < MONSTERX; i++)
 		{
 			ColorSet(pink, 0);
@@ -153,14 +145,14 @@ void monster::pre_frame_monster(void)
 	{
 		for (int i = 0; i < MONSTERY; i++)
 		{
-			gotoxy(sx, sy + i);
+			gotoxy(sx - 2, sy + i);
 			ColorSet(pink, 0);
 			printf("  ");
 		}
 	}
 	else if (dir == 2)
 	{
-		gotoxy(sx, sy + MONSTERY - 1);
+		gotoxy(sx, sy + MONSTERY);
 		for (int i = 0; i < MONSTERX; i++)
 		{
 			ColorSet(pink, 0);
@@ -171,7 +163,7 @@ void monster::pre_frame_monster(void)
 	{
 		for (int i = 0; i < MONSTERY; i++)
 		{
-			gotoxy(sx + MONSTERX - 1, sy + i);
+			gotoxy(sx + MONSTERX, sy + i);
 			ColorSet(pink, 0);
 			printf("  ");
 		}
@@ -195,4 +187,5 @@ void monster::delete_monster(void)
 int monster::getx(void) { return cx; }
 int monster::gety(void) { return cy; }
 int monster::get_hp(void) { return hp; }
+int monster::get_max_latency(void) { return max_latency; }
 void monster::set_hp(int h) { hp = h; }

@@ -468,19 +468,33 @@ int poker() {
 		while (1) {
 			print_select(num - '0');
 			key = _getch();
-			if (key == 97) {	//left (a)
+			if (key == 97) {    //left (a)
+				if (num == '1') {
+					num = '5';
+					continue;
+				}
 				if (num == '0') {
 					num = '5';
 					continue;
 				}
 				num--;
 			}
-			if (key == 100) {	//right (d)
+			if (key == 100) {    //right (d)
 				if (num == '5') {
-					num = '0';
+					num = '1';
+					continue;
+				}
+				if (num == '0') {
+					num = '5';
 					continue;
 				}
 				num++;
+			}
+			if (key == 'w') {
+				num = '0';
+			}
+			if (key == 's') {
+				num = '0';
 			}
 			if (key == 32) {		//finished space
 				break;

@@ -4,7 +4,7 @@ class monster
 {
 private:
 	//center x, y, start x, y
-	int cx, cy, sx, sy, hp, latency, type, dir, max_latency;
+	int cx, cy, sx, sy, hp, latency, max_latency, type, dir;
 	
 public:
 	monster(int t);
@@ -17,6 +17,7 @@ public:
 	int getx(void);
 	int gety(void);
 	int get_hp(void);
+	int get_max_latency(void);
 	void set_hp(int h);
 	void predict_moving_monster(int n, int& tmp_cx, int& tmp_cy);
 	

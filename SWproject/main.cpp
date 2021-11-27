@@ -64,8 +64,12 @@ int main()
 char select_menu(void)
 {
 	system("cls");
+	ColorSet(black, brightyellow);
+
 	for (int i = 0; i < CARDPOINTX + (CARDX + 4) * 5 + 3; i++)
 		cout << "*";
+
+	ColorSet(black, white);
 	cout << "\n";
 	cout << "Welcome!! ctrl+마우스 휠을 이용하셔서 글자를 작게 해주시고\n";
 	cout << "창 크기를 마우스 드래그로 늘려주세요!!\n\n";
@@ -140,20 +144,46 @@ void start_game(void)
 		int generate_time = 30;
 		int monster_number_max = 10;
 		int monster_number = 0;
-		int wait_time_max = 200;
+		int wait_time_max = 300;
 		int wait_time = 0;
 		int monster_type_num = 10;
+
+		ColorSet(black, white);
+		gotoxy(0, 0);
+		for (int space = 0; space < 119; space++)
+			cout << " ";
+		gotoxy(121, 0);
+		cout << "               ";
+		gotoxy(121, 0);
+		cout << "   Round : " << round << "   ";
+		ColorSet(black, brightyellow);
+		cout << "**";
+		ColorSet(black, white);
+		for (int space = 0; space < 110; space++)
+			cout << " ";
 
 		// phase 1, generate tower
 
 		// poker
+		gotoxy(0, 0);
+		ColorSet(black, white);
+		cout << "                                ";
+		gotoxy(0, 0);
+		cout << "Poker time!";
 		int rank = poker();
 		
 		// show map
 		show_map();
 
+		gotoxy(0, 0);
+		ColorSet(black, white);
+		cout << "                                ";
+		gotoxy(0, 0);
+		cout << "Select tower position!";
+
 		// tower print
 		for (int i = 0; i < t.size(); i++)	t[i].print_tower();
+
 		int x, y;
 		while (1)
 		{
@@ -233,6 +263,13 @@ void start_game(void)
 		int i = 0;
 		vector<class monster> m;
 		vector<class bullet> b;
+
+		gotoxy(0, 0);
+		ColorSet(black, white);
+		cout << "                                              ";
+		gotoxy(0, 0);
+		cout << "Kill them all !!!";
+
 		while(1)
 		{
 			// frame time
@@ -360,17 +397,18 @@ void start_game(void)
 				else			t[j].set_latency(l-1);
 			}
 
-			// eliminate previous frame monster
+			// moving monster, eliminate previous frame monster, print monster
 			for (size_t j = 0; j < m.size(); j++)
-				m[j].pre_frame_monster();
-
-			// monster moving
-			for (size_t j = 0; j < m.size(); j++)
-				m[j].moving_monster();
-
-			// monster, bullet print
-			for (size_t j = 0; j < m.size(); j++)
-				m[j].print_monster();
+			{
+				if (m[j].get_latency() == 0)
+				{
+					m[j].moving_monster();
+					m[j].pre_frame_monster();
+					m[j].print_monster();
+					m[j].set_latency(m[j].get_max_latency());
+				}
+				else	m[j].set_latency(m[j].get_latency() - 1);
+			}
 
 			for (size_t j = 0; j < b.size(); j++)
 				b[j].bullet_print();
@@ -393,6 +431,7 @@ void game_over(void)
 {
 	while (1)
 	{
+		ColorSet(black, white);
 		system("cls");
 		cout << "GAME OVER!!\n";
 		cout << "press 1 button to return the start screen\n";
