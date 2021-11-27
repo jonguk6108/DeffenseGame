@@ -22,3 +22,5 @@ public:
 	int get_original_y();
 	void set_latency(int l);
 };
+
+int get_tower_color(int rank, int x, int y);

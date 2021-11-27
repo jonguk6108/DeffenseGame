@@ -180,11 +180,25 @@ void start_game(void)
 				int color_a, color_b;
 				if (x > TILEX && y > TILEY &&
 					x < (MAPX - 1) * TILEX && y < (MAPY - 1) * TILEY &&
-					tower_map[x / TILEX][y / TILEY] &&
-					x % TILEX > 4 && x % TILEX < TILEX - 4 &&
-					y % TILEY > 2 && x % TILEY < TILEY - 2)	continue;
-				color_a = get_map_color(x, y);
-				color_b = get_map_color(x + 1, y);
+					tower_map[x / TILEX - 1][y / TILEY - 1] &&
+					(x % TILEX) > 3 && (x % TILEX) < (TILEX - 4) &&
+					(y % TILEY) > 1 && (y % TILEY) < (TILEY - 2))
+				{
+					color_a = get_tower_color(tower_map[x / TILEX - 1][y / TILEY - 1] - 1, x % TILEX - 3, y % TILEY - 2);
+				}
+				else	color_a = get_map_color(x, y);
+				if ((x + 1) > TILEX && y > TILEY &&
+					(x + 1) < (MAPX - 1) * TILEX && y < (MAPY - 1) * TILEY &&
+					tower_map[(x + 1) / TILEX - 1][y / TILEY - 1] &&
+					((x+1) % TILEX) > 3 && ((x+1) % TILEX) < (TILEX - 4) &&
+					(y % TILEY) > 1 && y % TILEY < (TILEY - 2))
+				{
+					color_b = get_tower_color(tower_map[(x+1) / TILEX - 1][y / TILEY - 1] - 1, ((x+1) % TILEX) - 3, (y % TILEY) - 2;
+				}
+				else	color_b = get_map_color(x+1, y);
+
+				//color_b = get_map_color(x + 1, y);
+
 				b[j].pre_frame_bullet(color_a, color_b);
 			}
 
