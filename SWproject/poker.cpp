@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include<conio.h>
 #include "poker.h"
 #include "print_cout.h"
 #include "data.h"
@@ -340,6 +341,86 @@ void poker_init() {
 		card_color[i] = 0;
 }
 
+void print_select(int select) {
+	// init
+	ColorSet(black, white);
+	gotoxy(CARDPOINTX - 1, CARDPOINTY - 1);
+	for (int i = 0; i < (CARDX + 5) * 5 - 3; i++)
+		printf(" ");
+	gotoxy(CARDPOINTX - 1, CARDPOINTY - 1 + (CARDY + 2) * 2 - 1);
+	for (int i = 0; i < (CARDX + 5) * 5 - 3; i++)
+		printf(" ");
+	gotoxy(CARDPOINTX - 1, CARDPOINTY - 1 + (CARDY + 2) * 2 - 1);
+	for (int i = 0; i < (CARDX + 5) * 5 - 3; i++)
+		printf(" ");
+	for (int i = CARDPOINTY - 1; i < CARDPOINTY + (CARDY + 2) * 2 - 1; i++) {
+		gotoxy(CARDPOINTX - 2, i);
+		printf("  ");
+	}
+	for (int i = CARDPOINTY - 1; i < CARDPOINTY + (CARDY + 2) * 2 - 1; i++) {
+		gotoxy(CARDPOINTX + (CARDX + 5) * 5 - 5, i);
+		printf("  ");
+	}
+
+	for (int j = 1; j <= 5; j++) {
+		for (int i = CARDPOINTY - 1; i < CARDPOINTY + (CARDY + 2) * 2 - 1; i++) {
+			gotoxy(CARDPOINTX - 2 + (j - 1) * (CARDX + 5), i);
+			printf("  ");
+		}
+
+		for (int i = CARDPOINTY - 1; i < CARDPOINTY + (CARDY + 2) * 2 - 1; i++) {
+			gotoxy(CARDPOINTX + (j - 1) * (CARDX + 5) + CARDX, i);
+			printf("  ");
+		}
+	}
+
+
+
+	if (select == 0) {
+		ColorSet(green, white);
+		gotoxy(CARDPOINTX - 1, CARDPOINTY -1 );
+		for (int i = 0; i < (CARDX + 5) * 5 - 3; i++)
+			printf(" ");
+
+		gotoxy(CARDPOINTX - 1, CARDPOINTY - 1 + (CARDY + 2) * 2 - 1);
+		for (int i = 0; i < (CARDX + 5) * 5 - 3; i++)
+			printf(" ");
+
+		for (int i = CARDPOINTY - 1; i < CARDPOINTY + (CARDY + 2) * 2 - 1; i++) {
+			gotoxy(CARDPOINTX - 2, i);
+			printf("  ");
+		}
+		for (int i = CARDPOINTY - 1; i < CARDPOINTY + (CARDY + 2) * 2 - 1; i++) {
+			gotoxy(CARDPOINTX + (CARDX + 5) * 5 - 5, i);
+			printf("  ");
+		}
+
+		ColorSet(black, white);
+		return;
+	}
+	ColorSet(blue, white);
+	gotoxy(CARDPOINTX-1 + (select-1) * (CARDX+5), 2);
+	for (int i = 0; i < (CARDX + 5) - 3; i++)
+		printf(" ");
+
+	gotoxy(CARDPOINTX - 1 + (select - 1) * (CARDX + 5), CARDPOINTY - 1 + (CARDY + 2) * 2 - 1);
+	for (int i = 0; i < (CARDX + 5) - 3; i++)
+		printf(" ");
+
+	for (int i = CARDPOINTY - 1; i < CARDPOINTY + (CARDY + 2) * 2 - 1; i++) {
+		gotoxy(CARDPOINTX - 2 + (select - 1) * (CARDX + 5), i);
+		printf("  ");
+	}
+
+	for (int i = CARDPOINTY - 1; i < CARDPOINTY + (CARDY + 2) * 2 - 1; i++) {
+		gotoxy(CARDPOINTX + (select - 1) * (CARDX + 5) + CARDX , i);
+		printf("  ");
+	}
+
+	ColorSet(black, white);
+	return;
+}
+
 int poker() {
 	poker_init();
 
@@ -360,6 +441,8 @@ int poker() {
 	}
 
 	//choose card lists
+	int first_while_cnt = 0;
+	char num = '0'-1;
 	while (1) {
 		int cnt = 0;
 		for (int i = 0; i < 5; i++)
@@ -376,12 +459,37 @@ int poker() {
 
 		gotoxy(CARDPOINTX, 1);
 		printf("Select change cards number!");
-		gotoxy(CARDPOINTX, 2);
-		printf("If you do not change cards, input is 0");
-		char num;
-		cin >> num;
-		num--;
 
+		int key;
+		int tal = 0;
+		int while_cnt = 1;
+
+		num++;
+		while (1) {
+			print_select(num - '0');
+			key = _getch();
+			if (key == 97) {	//left (a)
+				if (num == '0') {
+					num = '5';
+					continue;
+				}
+				num--;
+			}
+			if (key == 100) {	//right (d)
+				if (num == '5') {
+					num = '0';
+					continue;
+				}
+				num++;
+			}
+			if (key == 32) {		//finished space
+				break;
+			}
+		}
+		print_select(num - '0');
+		Sleep(1000);
+
+		num--;
 		// jokbo tesk code
 		if (num == (']' - 1)) {
 			for (int i = 0; i < 5; i++) {
@@ -417,8 +525,7 @@ int poker() {
 		print_card(i);
 	gotoxy(CARDPOINTX, 1);
 	printf("        rank : %d / %s", rank, string_rank[rank]);
-	gotoxy(CARDPOINTX, 2);
-	printf("                                                       ");
+	print_select(0);
 
 	return rank;
 }

@@ -82,7 +82,7 @@ void monster::print_monster(void)
 		gotoxy(sx, sy + i);
 		for (int j = 0; j < MONSTERX; j++)
 		{
-			ColorSet(monster_shape[0][dir][j][i], 0);
+			ColorSet(monster_shape[0][dir][j][i] + 1, 0);
 			printf(" ");
 		}
 	}
