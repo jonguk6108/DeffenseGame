@@ -6,6 +6,7 @@ private:
 	int sx, sy;
 	int fx, fy;
 	int time;
+	int color;
 	int monster_index;
 
 public:

@@ -5,14 +5,14 @@
 #include "data.h"
 
 bullet::bullet(int tx, int ty, int mx, int my, int i, int a) : 
-	sx(tx), sy(ty), fx(mx), fy(my), time(bullet_time), monster_index(i), attack(a) {}
+	sx(tx), sy(ty), fx(mx), fy(my), time(bullet_time), monster_index(i), attack(a), color(a % 11 + 4) {}
 
 void bullet::bullet_print(void)
 {
 	int cx = (sx * time + fx * (bullet_time - time)) / bullet_time;
 	int cy = (sy * time + fy * (bullet_time - time)) / bullet_time;
 	gotoxy(cx, cy);
-	ColorSet(brightyellow, brightyellow);
+	ColorSet(color, color);
 	std::cout << "  ";
 	ColorSet(black, white);
 }

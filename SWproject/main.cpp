@@ -34,6 +34,7 @@ void game_over(void);
 void show_map(void);
 void print_select(int x, int y);
 void print_select(char x);
+void print_round(int r);
 
 enum command
 {
@@ -182,6 +183,32 @@ void print_select(int x, int y) {
 	ColorSet(black, white);
 }
 
+void print_round(int r)
+{
+	ColorSet(black, white);
+	gotoxy(0, 0);
+	for (int space = 0; space < 260; space++)
+		cout << " ";
+	gotoxy(121, 0);
+	cout << "               ";
+	gotoxy(121, 1);
+	cout << "               ";
+	gotoxy(119, 1);
+	ColorSet(black, brightyellow);
+	cout << "**";
+	ColorSet(black, white);
+	cout << "  Round : " << r << "  ";
+	ColorSet(black, brightyellow);
+	cout << "**";
+	gotoxy(119, 0);
+	cout << "*****************";
+	gotoxy(119, 2);
+	cout << "*****************";
+	ColorSet(black, white);
+	for (int space = 0; space < 110; space++)
+		cout << " ";
+}
+
 // 첫 스타트 화면
 void start_game(void)
 {
@@ -192,34 +219,13 @@ void start_game(void)
 	while (1)
 	{
 		int generate_time = 30;
-		int monster_number_max = 10;
+		int monster_number_max = 3 + 2 * round;
 		int monster_number = 0;
-		int wait_time_max = 500;
+		int wait_time_max = 1000;
 		int wait_time = 0;
 		int monster_type_num = 10;
 
-		ColorSet(black, white);
-		gotoxy(0, 0);
-		for (int space = 0; space < 260; space++)
-			cout << " ";
-		gotoxy(121, 0);
-		cout << "               ";
-		gotoxy(121, 1);
-		cout << "               ";
-		gotoxy(119, 1);
-		ColorSet(black, brightyellow);
-		cout << "**";
-		ColorSet(black, white);
-		cout << "  Round : " << round << "  ";
-		ColorSet(black, brightyellow);
-		cout << "**";
-		gotoxy(119, 0);
-		cout << "*****************";
-		gotoxy(119, 2);
-		cout << "*****************";
-		ColorSet(black, white);
-		for (int space = 0; space < 110; space++)
-			cout << " ";
+		print_round(round);
 
 		// phase 1, generate tower
 
@@ -302,6 +308,9 @@ void start_game(void)
 						if (t[j].get_original_x() == x && t[j].get_original_y() == y)
 							t.erase(t.begin() + j);
 					}
+					gotoxy(0, TILEY * MAPY);
+					cout << "                                                                       ";
+					ColorSet(black, white);
 					break;
 				}
 			}
@@ -456,6 +465,10 @@ void start_game(void)
 				else			t[j].set_latency(l-1);
 			}
 
+			// print bullet
+			for (size_t j = 0; j < b.size(); j++)
+				b[j].bullet_print();
+
 			// moving monster, eliminate previous frame monster, print monster
 			for (size_t j = 0; j < m.size(); j++)
 			{
@@ -469,13 +482,10 @@ void start_game(void)
 				else	m[j].set_latency(m[j].get_latency() - 1);
 			}
 
-			for (size_t j = 0; j < b.size(); j++)
-				b[j].bullet_print();
-
 			while (1)
 			{
 				end = clock();
-				if ((double)(end - start) >= 100)	break;
+				if ((double)(end - start) >= 70)	break;
 			}
 
 			i++;
