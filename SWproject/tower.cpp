@@ -5,7 +5,7 @@
 #include "print_cout.h"
 
 tower::tower(int rank, int x, int y): level(rank),
-power(rank * 5), latency(1),
+power(rank * 5 * 0), latency(1),
 ox(x), oy(y),
 sx(TILEX* (x + 1) + 4), sy(TILEY* (y + 1) + 2),
 cx(TILEX* (x + 1) + TILEX / 2), cy(TILEY* (y + 1) + TILEY / 2)
