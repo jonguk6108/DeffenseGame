@@ -33,6 +33,7 @@ void show_manual(void);
 void game_over(void);
 void show_map(void);
 void print_select(int x, int y);
+void print_select(char x);
 
 enum command
 {
@@ -60,6 +61,32 @@ int main()
 	}
 }
 
+
+void print_select(char x) {
+	ColorSet(black, white);
+	for (int i = 0; i < 3; i++) {
+		gotoxy(0, i + 10);
+		if (i == 0)
+			cout << " Start game!!                                    ";
+		if (i == 1)
+			cout << " To see manual!!                                 ";
+		if (i == 2)
+			cout << " To exit the game!!                              ";
+	}
+	if (x == '0')
+		return;
+
+	ColorSet(black, brightyellow);
+	gotoxy(0, x -'0' + 9);
+	if(x == '1')
+		cout << " Start game!!";
+	if (x == '2')
+		cout << " To see manual!!";
+	if (x == '3')
+		cout << " To exit the game!!";
+
+	ColorSet(black, white);
+}
 // 첫 시작 실행창이며, 입력 받은 값에 따라 메뉴를 이동시킴
 char select_menu(void)
 {
@@ -71,16 +98,39 @@ char select_menu(void)
 
 	ColorSet(black, white);
 	cout << "\n";
-	cout << "Welcome!! ctrl+마우스 휠을 이용하셔서 글자를 작게 해주시고\n";
-	cout << "창 크기를 마우스 드래그로 늘려주세요!!\n\n";
+	cout << " 안녕하세요!! 이승태와 박종욱입니다. 포커타워디펜스에 오신것을 환영합니다.\n";
+	cout << " 우선 ctrl + 마우스 휠을 이용하셔서 글자를 작게 해주시고\n";
+	cout << " 창 크기를 마우스 드래그로 늘려주세요!!\n\n";
+	cout << " 상단에 보이시는 별표들이 한줄로 출력이 되어야 올바른 진행을 할 수 있습니다.\n";
+	cout << " 모든 동작은 wasd와 스페이스바로 입력을 하게 되어있습니다.\n";
+	cout << "\n";
+	Sleep(4000);
+	char c = '1';
+	int key;
+	while (1) {
+		print_select(c);
 
-	cout << "Press 1 to start game!!\n";
-	cout << "Press 2 to see manual!!\n";
-	cout << "Press 3 to exit the game!!\n";
+		key = _getch();
 
-
-	char c;
-	cin >> c;
+		if (key == 'w') {    //up (w)
+			if (c == '1') {
+				c = '3';
+				continue;
+			}
+			c--;
+		}
+		if (key == 's') {    //down (s)
+			if (c == '3') {
+				c = '1';
+				continue;
+			}
+			c++;
+		}
+		if (key == 32) {        //finished space
+			break;
+		}
+	}
+	print_select('0');
 	return c;
 }
 

@@ -501,7 +501,6 @@ int poker() {
 			}
 		}
 		print_select(num - '0');
-		Sleep(1000);
 
 		num--;
 		// jokbo tesk code
