@@ -32,6 +32,7 @@ void start_game(void);
 void show_manual(void);
 void game_over(void);
 void show_map(void);
+void print_select(int x, int y);
 
 enum command
 {
@@ -87,6 +88,46 @@ void show_map(void)
 			print_map(i, j);
 }
 
+void print_select(int x, int y) {
+	int tx = 0;
+	int ty = 0;
+	ColorSet(green, white);
+	for (tx = 0; tx < MAPX - 2; tx++)
+		for (ty = 0; ty < MAPY - 2; ty++) {
+			for (int i = 0; i < TILEY - 2; i++) {
+				gotoxy(TILEX * (tx + 1) + 2, TILEY * (ty + 1) + 1 + i);
+				if (i == 0 || i == TILEY - 3)
+					for (int j = 0; j < TILEX - 4; j++)
+						cout << " ";
+				else {
+					cout << "  ";
+					gotoxy(TILEX * (tx + 1) + 2 + TILEX - 6, TILEY * (ty + 1) + 1 + i);
+					cout << "  ";
+				}
+			}
+		}
+
+	gotoxy(0, 0);
+	if (x == -1 && y == -1)
+		return;
+	tx = x;
+	ty = y;
+
+	ColorSet(gray, white);
+	for (int i = 0; i < TILEY - 2; i++) {
+		gotoxy(TILEX * (tx + 1) + 2, TILEY * (ty + 1) + 1 + i);
+		if (i == 0 || i == TILEY - 3)
+			for (int j = 0; j < TILEX - 4; j++)
+				cout << " ";
+		else {
+			cout << "  ";
+			gotoxy(TILEX * (tx + 1) + 2 + TILEX - 6, TILEY * (ty + 1) + 1 + i);
+			cout << "  ";
+		}
+	}
+	ColorSet(black, white);
+}
+
 // 첫 스타트 화면
 void start_game(void)
 {
@@ -116,12 +157,52 @@ void start_game(void)
 		int x, y;
 		while (1)
 		{
-			gotoxy(0, TILEY * MAPY - 1);
-			cout << "put_tower_position: ";
-			cin >> x >> y;
+			x = (MAPX - 2) / 2;
+			y = (MAPY - 2) / 2;
+			int key;
+			while (1) {
+				print_select(x, y);
+				key = _getch();
+				if (key == 'a') {    //left (a)
+					if (x == 0) {
+						x = MAPX - 3;
+						continue;
+					}
+					x--;
+				}
+				if (key == 'd') {    //right (d)
+					if (x == MAPX - 3) {
+						x = 0;
+						continue;
+					}
+					x++;
+				}
+				if (key == 'w') {    //up (w)
+					if (y == 0) {
+						y = MAPY - 3;
+						continue;
+					}
+					y--;
+				}
+				if (key == 's') {    //down (s)
+					if (y == MAPY - 3) {
+						y = 0;
+						continue;
+					}
+					y++;
+				}
+				if (key == 32) {        //finished space
+					break;
+				}
+			}
+			print_select(-1, -1);
+			Sleep(500);
+
 			if (x >= 0 && x < MAPX - 2 && y >= 0 && y < MAPY - 2 && tower_map[x][y] == 0)	break;
 			if (x >= 0 && x < MAPX - 2 && y >= 0 && y < MAPY - 2 && tower_map[x][y])
 			{
+				gotoxy(0, TILEY * MAPY);
+				ColorSet(black, white);
 				cout << "Will you remove the tower and make a new one? (y/n): ";
 				char answer;
 				cin >> answer;
@@ -135,16 +216,16 @@ void start_game(void)
 					break;
 				}
 			}
-			else	cout << "Wrong position!";
-			ColorSet(black, black);
-			gotoxy(0, TILEY * MAPY - 1);
-			cout << "                                 ";
+
+			gotoxy(0, TILEY * MAPY);
+			cout << "                                                                       ";
 			ColorSet(black, white);
 		}
 		// make tower
 		class tower tower_tmp(rank, x, y);
 		t.push_back(tower_tmp);
 		tower_map[x][y] = rank;
+
 		// tower print
 		for (int i = 0; i < t.size(); i++)	t[i].print_tower();
 
@@ -238,7 +319,7 @@ void start_game(void)
 						else if ((*it_bullet).get_monster_index() > m_idx)		(*it_bullet).set_monster_index((*it_bullet).get_monster_index() - 1);
 						else													it_bullet++;
 					}
-					(*it_monster).pre_frame_monster();
+					(*it_monster).delete_monster();
 					it_monster = m.erase(it_monster);
 				}
 				else	it_monster++;
@@ -259,18 +340,22 @@ void start_game(void)
 					{
 						int mx = m[k].getx();
 						int my = m[k].gety();
-						int dis = (tx - mx) * (tx - mx) + (ty - my) * (ty - my);
+						int dis = (tx - mx) * (tx - mx) + 4 * (ty - my) * (ty - my);
 						if (min > dis)
 						{
 							min = dis;
 							min_index = k;
 						}
 					}
-					int predict_x, predict_y;
-					m[min_index].predict_moving_monster(2, predict_x, predict_y);
-					class bullet bullet_tmp(tx, ty, predict_x, predict_y, min_index, t[j].get_power());
-					b.push_back(bullet_tmp);
-					t[j].set_latency(t[j].get_main_latency());
+
+					if (min < t[j].get_range())
+					{
+						int predict_x, predict_y;
+						m[min_index].predict_moving_monster(2, predict_x, predict_y);
+						class bullet bullet_tmp(tx, ty, predict_x, predict_y, min_index, t[j].get_power());
+						b.push_back(bullet_tmp);
+						t[j].set_latency(t[j].get_main_latency());
+					}
 				}
 				else			t[j].set_latency(l-1);
 			}

@@ -140,6 +140,46 @@ void monster::predict_moving_monster(int n, int &tmp_cx, int &tmp_cy)
 
 void monster::pre_frame_monster(void)
 {
+	if (dir == 0)
+	{
+		gotoxy(sx, sy);
+		for (int i = 0; i < MONSTERX; i++)
+		{
+			ColorSet(pink, 0);
+			printf(" ");
+		}
+	}
+	else if (dir == 1)
+	{
+		for (int i = 0; i < MONSTERY; i++)
+		{
+			gotoxy(sx, sy + i);
+			ColorSet(pink, 0);
+			printf("  ");
+		}
+	}
+	else if (dir == 2)
+	{
+		gotoxy(sx, sy + MONSTERY - 1);
+		for (int i = 0; i < MONSTERX; i++)
+		{
+			ColorSet(pink, 0);
+			printf(" ");
+		}
+	}
+	else
+	{
+		for (int i = 0; i < MONSTERY; i++)
+		{
+			gotoxy(sx + MONSTERX - 1, sy + i);
+			ColorSet(pink, 0);
+			printf("  ");
+		}
+	}
+}
+
+void monster::delete_monster(void)
+{
 	for (int i = 0; i < MONSTERY; i++)
 	{
 		gotoxy(sx, sy + i);

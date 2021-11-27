@@ -9,6 +9,7 @@ private:
 	int sx, sy;
 	int cx, cy;
 	int ox, oy;
+	int range;
 
 public:
 	tower(int rank, int cx, int cy);
@@ -20,6 +21,7 @@ public:
 	int gety();
 	int get_original_x();
 	int get_original_y();
+	int get_range();
 	void set_latency(int l);
 };
 
