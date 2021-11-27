@@ -68,7 +68,7 @@ int py[4] = {1,0,-1,0};
 monster::monster(int t) : type(t), cx(TILEX/2), cy(TILEY/2 + 1), sx(TILEX/2 - MONSTERX/2), sy(TILEY/2 - MONSTERY/2 + 1)
 {
 	dir = 0;
-	hp = t * t * 10 + 5 * t + 5;
+	hp = t * t * 4 + 15 * t + 5;
 	max_latency = 2;
 	latency = 2;
 }

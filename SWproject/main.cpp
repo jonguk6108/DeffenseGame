@@ -219,7 +219,7 @@ void start_game(void)
 	while (1)
 	{
 		int generate_time = 30;
-		int monster_number_max = 3 + 2 * round;
+		int monster_number_max = 5 + round / 2;
 		int monster_number = 0;
 		int wait_time_max = 1000;
 		int wait_time = 0;
@@ -485,7 +485,7 @@ void start_game(void)
 			while (1)
 			{
 				end = clock();
-				if ((double)(end - start) >= 70)	break;
+				if ((double)(end - start) >= 100)	break;
 			}
 
 			i++;
