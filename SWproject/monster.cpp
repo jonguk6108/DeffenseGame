@@ -68,7 +68,7 @@ int py[4] = {1,0,-1,0};
 monster::monster(int t) : type(t), cx(TILEX/2), cy(TILEY/2 + 1), sx(TILEX/2 - MONSTERX/2), sy(TILEY/2 - MONSTERY/2 + 1)
 {
 	dir = 0;
-	hp = t * 20;
+	hp = t * t * 10 + 5 * t + 5;
 	latency = 1;
 }
 
@@ -104,6 +104,29 @@ void monster::moving_monster(void)
 	cy = cy + py[dir];
 	sx = sx + px[dir];
 	sy = sy + py[dir];
+}
+
+void monster::predict_moving_monster(int n, int &tmp_cx, int &tmp_cy)
+{
+	int EDGE_X1 = TILEX / 2;
+	int EDGE_X2 = (MAPX - 1) * TILEX + TILEX / 2;
+	int EDGE_Y1 = TILEY / 2;
+	int EDGE_Y2 = (MAPY - 1) * TILEY + TILEY / 2;
+	
+	int tmp_dir = dir;
+	tmp_cx = cx;
+	tmp_cy = cy;
+
+	while (n--)
+	{
+		if (tmp_cx == EDGE_X1 && tmp_cy == EDGE_Y1)				tmp_dir = 0;
+		else if (tmp_cx == EDGE_X1 && tmp_cy == EDGE_Y2)		tmp_dir++;
+		else if (tmp_cx == EDGE_X2 && tmp_cy == EDGE_Y2)		tmp_dir++;
+		else if (tmp_cx == EDGE_X2 && tmp_cy == EDGE_Y1)		tmp_dir++;
+
+		tmp_cx = tmp_cx + px[tmp_dir];
+		tmp_cy = tmp_cy + py[tmp_dir];
+	}
 }
 
 void monster::pre_frame_monster(void)

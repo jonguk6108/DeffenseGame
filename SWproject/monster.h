@@ -17,5 +17,6 @@ public:
 	int gety(void);
 	int get_hp(void);
 	void set_hp(int h);
-
+	void predict_moving_monster(int n, int& tmp_cx, int& tmp_cy);
+	
 };

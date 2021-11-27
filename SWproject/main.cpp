@@ -154,6 +154,10 @@ void start_game(void)
 		vector<class bullet> b;
 		while(1)
 		{
+			// frame time
+			clock_t start, end;
+			start = clock();
+
 			// generate monster
 			if (monster_number == monster_number_max)
 			{
@@ -164,7 +168,7 @@ void start_game(void)
 			else if (i % generate_time == 0 && monster_number < monster_number_max)
 			{
 				monster_number++;
-				class monster m_tmp(round % monster_type_num);
+				class monster m_tmp(round);
 				m.push_back(m_tmp);
 			}
 			
@@ -173,8 +177,14 @@ void start_game(void)
 			{
 				int x = b[j].getx();
 				int y = b[j].gety();
-				int color_a = get_map_color(x, y);
-				int color_b = get_map_color(x+1, y);
+				int color_a, color_b;
+				if (x > TILEX && y > TILEY &&
+					x < (MAPX - 1) * TILEX && y < (MAPY - 1) * TILEY &&
+					tower_map[x / TILEX][y / TILEY] &&
+					x % TILEX > 4 && x % TILEX < TILEX - 4
+					y % TILEY > 2 && x % TILEY < TILEY - 2)	continue;
+				color_a = get_map_color(x, y);
+				color_b = get_map_color(x + 1, y);
 				b[j].pre_frame_bullet(color_a, color_b);
 			}
 
@@ -240,7 +250,9 @@ void start_game(void)
 							min_index = k;
 						}
 					}
-					class bullet bullet_tmp(tx, ty, m[min_index].getx(), m[min_index].gety(), min_index, t[j].get_power());
+					int predict_x, predict_y;
+					m[min_index].predict_moving_monster(5, predict_x, predict_y);
+					class bullet bullet_tmp(tx, ty, predict_x, predict_y, min_index, t[j].get_power());
 					b.push_back(bullet_tmp);
 					t[j].set_latency(t[j].get_main_latency());
 				}
@@ -262,7 +274,12 @@ void start_game(void)
 			for (size_t j = 0; j < b.size(); j++)
 				b[j].bullet_print();
 
-			Sleep(200);
+			while (1)
+			{
+				end = clock();
+				if ((double)(end - start) >= 200)	break;
+			}
+
 			i++;
 		}
 
