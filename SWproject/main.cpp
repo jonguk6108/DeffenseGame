@@ -144,20 +144,29 @@ void start_game(void)
 		int generate_time = 30;
 		int monster_number_max = 10;
 		int monster_number = 0;
-		int wait_time_max = 300;
+		int wait_time_max = 500;
 		int wait_time = 0;
 		int monster_type_num = 10;
 
 		ColorSet(black, white);
 		gotoxy(0, 0);
-		for (int space = 0; space < 119; space++)
+		for (int space = 0; space < 260; space++)
 			cout << " ";
 		gotoxy(121, 0);
 		cout << "               ";
-		gotoxy(121, 0);
-		cout << "   Round : " << round << "   ";
+		gotoxy(121, 1);
+		cout << "               ";
+		gotoxy(119, 1);
 		ColorSet(black, brightyellow);
 		cout << "**";
+		ColorSet(black, white);
+		cout << "  Round : " << round << "  ";
+		ColorSet(black, brightyellow);
+		cout << "**";
+		gotoxy(119, 0);
+		cout << "*****************";
+		gotoxy(119, 2);
+		cout << "*****************";
 		ColorSet(black, white);
 		for (int space = 0; space < 110; space++)
 			cout << " ";
