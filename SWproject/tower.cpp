@@ -5,12 +5,12 @@
 #include "print_cout.h"
 
 tower::tower(int rank, int x, int y): level(rank  - 1),
-power(rank * 5), latency(1), range(rank * (1100)),
+power(rank * rank + 3 * rank + 2), latency(1), range(rank * (1100)),
 ox(x), oy(y),
 sx(TILEX* (x + 1) + 4), sy(TILEY* (y + 1) + 2),
 cx(TILEX* (x + 1) + TILEX / 2), cy(TILEY* (y + 1) + TILEY / 2)
 {
-	main_latency = 1 < 8 - rank ? 8 - rank : 1;
+	main_latency = 1 < 9 - rank ? 9 - rank : 1;
 }
 
 int tower_shape[10][TOWERX][TOWERY] =
