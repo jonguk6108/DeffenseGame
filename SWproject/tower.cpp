@@ -152,3 +152,32 @@ int tower::get_range() { return range; }
 void tower::set_latency(int l) { latency = l; }
 
 int get_tower_color(int rank, int x, int y) { return tower_shape[rank][x][y]; }
+
+void tower_refer(void)
+{
+	gotoxy(1, MAPY * TILEY + 5);
+	printf("tower manual");
+
+	for (int i = 0; i < TOWERY + 2; i++)
+	{
+		gotoxy(1, MAPY * TILEY + 6 + i);
+		for (int j = 0; j < TOWERX * 10 + 31; j++)
+		{
+			ColorSet(green, green);
+			printf(" ");
+		}
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < TOWERY; j++)
+		{
+			gotoxy(3 + (TOWERX + 3) * i, MAPY * TILEY + 7 + j);
+			for (int k = 0; k < TOWERX; k++)
+			{
+				ColorSet(tower_shape[i][k][j], tower_shape[i][k][j]);
+				printf(" ");
+			}
+		}
+	}
+}

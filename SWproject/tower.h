@@ -25,4 +25,5 @@ public:
 	void set_latency(int l);
 };
 
+void tower_refer();
 int get_tower_color(int rank, int x, int y);

@@ -197,7 +197,8 @@ void print_round(int r)
 	ColorSet(black, brightyellow);
 	cout << "**";
 	ColorSet(black, white);
-	cout << "  Round : " << r << "  ";
+	if(r >= 10)		cout << "  Round : " << r << " ";
+	else			cout << "  Round : " << r << "  ";
 	ColorSet(black, brightyellow);
 	cout << "**";
 	gotoxy(119, 0);
@@ -212,6 +213,9 @@ void print_round(int r)
 // 첫 스타트 화면
 void start_game(void)
 {
+	show_map();
+	tower_refer();
+
 	int round = 1;
 	// round
 	int tower_map[MAPX - 2][MAPY - 2] = {0,};
@@ -519,7 +523,18 @@ void show_manual(void)
 	while (1)
 	{
 		system("cls");
-		cout << "abcd\n";
+		cout << "\n***********************************************************************************\n\n";
+		cout << "1. 포커를 시작합니다.\n\n";
+		cout << "2. 각 카드는 한번의 바꿀기회가 주어지며 a,d로 원하는 카드 위치를 바꿔주고\n";
+		cout << "space bar를 누르면 카드가 바뀝니다.\n\n";
+		cout << "3. w버튼을 누르고 space bar를 누르면 포커의 결과가 나옵니다.\n\n";
+		cout << "4. 포커의 등급에 따라 타워의 파워가 바뀌며,\n";
+		cout << "w,a,s,d를 이용하여 타워를 원하는 위치에 놓을 수 있습니다.\n\n";
+		cout << "5. space bar를 이용하여 tower의 위치를 지정할 수 있고, \n";
+		cout << "만약 타워의 위치가 겹친다면 y를 눌러 타워를 교체시킬 수 있습니다.\n\n";
+		cout << "6. 몬스터가 등장하며 타워는 자동으로 몬스터를 제거합니다.\n\n";
+		cout << "7. 몬스터를 다 제거하면 1로 돌아가 과정을 반복합니다.\n\n";
+		cout << "***********************************************************************************\n\n";
 		cout << "Press 1 button to return the start screen\n";
 
 		char c = '0';
