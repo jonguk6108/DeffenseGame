@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="poker.h" />
+    <ClInclude Include="position.h" />
     <ClInclude Include="print_cout.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="monster.h" />

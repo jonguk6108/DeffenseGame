@@ -1,18 +1,18 @@
 #pragma once
 
-class tower {
+#include "position.h"
+
+class tower : public position {
 private:
 	int level;
 	int power;
 	int latency;
 	int main_latency;
-	int sx, sy;
-	int cx, cy;
 	int ox, oy;
 	int range;
 
 public:
-	tower(int rank, int cx, int cy);
+	tower(int rank, int x, int y);
 	void print_tower();
 	int get_power();
 	int get_latency();

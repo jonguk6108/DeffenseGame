@@ -5,10 +5,9 @@
 #include "print_cout.h"
 
 tower::tower(int rank, int x, int y): level(rank  - 1),
-power(rank * rank + 3 * rank + 2), latency(1), range(rank * (1100)),
+power(rank * rank + 3 * rank + 1), latency(1), range(rank * (1100)),
 ox(x), oy(y),
-sx(TILEX* (x + 1) + 4), sy(TILEY* (y + 1) + 2),
-cx(TILEX* (x + 1) + TILEX / 2), cy(TILEY* (y + 1) + TILEY / 2)
+position(TILEX* (x + 1) + TILEX / 2, TILEY* (y + 1) + TILEY / 2, TILEX* (x + 1) + 4, TILEY* (y + 1) + 2)
 {
 	main_latency = 1 < 9 - rank ? 9 - rank : 1;
 }
@@ -131,7 +130,7 @@ void tower::print_tower()
 {
 	for (int i = 0; i < TOWERY; i++)
 	{
-		gotoxy(sx, sy + i);
+		gotoxy(get_sx(), get_sy() + i);
 		for (int j = 0; j < TOWERX; j++)
 		{
 			ColorSet(tower_shape[level][j][i], 0);
@@ -144,8 +143,8 @@ void tower::print_tower()
 int tower::get_power() { return power; }
 int tower::get_latency() { return latency; }
 int tower::get_main_latency() { return main_latency; }
-int tower::getx() { return cx; }
-int tower::gety() { return cy; }
+int tower::getx() { return get_cx(); }
+int tower::gety() { return get_cy(); }
 int tower::get_original_x() { return ox; }
 int tower::get_original_y() { return oy; }
 int tower::get_range() { return range; }
