@@ -17,7 +17,7 @@ void bullet::bullet_print(void)
 	ColorSet(black, white);
 }
 
-void bullet::pre_frame_bullet(int color_a, int color_b)
+void bullet::bullet_print(int color_a, int color_b)
 {
 	int cx = (sx * time + fx * (bullet_time - time)) / bullet_time;
 	int cy = (sy * time + fy * (bullet_time - time)) / bullet_time;

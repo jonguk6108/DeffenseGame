@@ -391,7 +391,7 @@ void start_game(void)
 
 				//color_b = get_map_color(x + 1, y);
 
-				b[j].pre_frame_bullet(color_a, color_b);
+				b[j].bullet_print(color_a, color_b);
 			}
 
 			// minus bullet time && monster hp down

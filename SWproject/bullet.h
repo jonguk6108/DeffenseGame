@@ -12,7 +12,7 @@ private:
 public:
 	bullet(int sx, int sy, int fx, int fy, int i, int a);
 	void bullet_print(void);
-	void pre_frame_bullet(int color_a, int color_b);
+	void bullet_print(int color_a, int color_b);
 	int get_time(void);
 	int get_monster_index(void);
 	int get_attack(void);
