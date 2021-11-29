@@ -9,7 +9,8 @@
 #include <vector>
 #include <string>
 #include <ctime>
-
+#include <fstream>
+#include <stdlib.h>
 //data
 #include "data.h"
 //맵 (타일)을 출력하며, 맵크기와 타일 크기에 대한 정보를 가짐.
@@ -28,9 +29,9 @@
 using namespace std;
 
 char select_menu(void);
-void start_game(void);
+int start_game(void);
 void show_manual(void);
-void game_over(void);
+void game_over(int rank);
 void show_map(void);
 void print_select(int x, int y);
 void print_select(char x);
@@ -50,8 +51,8 @@ int main()
 		switch (select_menu())
 		{
 		case GAMESTART:
-			start_game();
-			game_over();
+
+			game_over(start_game());
 			break;
 		case MANUAL:
 			show_manual();
@@ -211,7 +212,7 @@ void print_round(int r)
 }
 
 // 첫 스타트 화면
-void start_game(void)
+int start_game(void)
 {
 	show_map();
 	tower_refer();
@@ -353,7 +354,7 @@ void start_game(void)
 			{
 				wait_time++;
 				if (m.size() == 0)				break;
-				if (wait_time > wait_time_max)	return;
+				if (wait_time > wait_time_max)	return round;
 			}
 			else if (i % generate_time == 0 && monster_number < monster_number_max)
 			{
@@ -500,13 +501,34 @@ void start_game(void)
 }
 
 // game_over창
-void game_over(void)
+void game_over(int round)
 {
 	while (1)
 	{
 		ColorSet(black, white);
 		system("cls");
 		cout << "GAME OVER!!\n";
+		cout << "BE PRINTING RECORD~\n";
+		cout << "Print Name\n";
+
+		string name;
+		cin >> name;
+		string str = " : ";
+		std::ofstream write_file;
+		write_file.open("record.txt", std::ios_base::app);
+		char a[100] = { 0 };
+		_itoa_s(round, a, 10);
+		a[2] = '\n';
+		if (write_file.is_open()) 
+		{
+			write_file.write(name.c_str(), name.size());
+			write_file.write(str.c_str(), str.size());
+			write_file.write(a, 3); 
+		}
+		write_file.close(); 
+
+		cout << "RECORDING FINISHED\n";
+
 		cout << "press 1 button to return the start screen\n";
 
 		char c = '0';
@@ -535,6 +557,21 @@ void show_manual(void)
 		cout << "6. 몬스터가 등장하며 타워는 자동으로 몬스터를 제거합니다.\n\n";
 		cout << "7. 몬스터를 다 제거하면 1로 돌아가 과정을 반복합니다.\n\n";
 		cout << "***********************************************************************************\n\n";
+	
+		ifstream read_file;
+		read_file.open("record.txt");  
+
+		if (read_file.is_open())
+		{
+			while (!read_file.eof())
+			{
+				char tmp[256];
+				read_file.getline(tmp, 256);
+				cout << tmp << endl; 
+			}
+			read_file.close();
+		}
+
 		cout << "Press 1 button to return the start screen\n";
 
 		char c = '0';
