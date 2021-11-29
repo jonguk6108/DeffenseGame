@@ -65,7 +65,7 @@ int monster_shape[1][4][MONSTERX][MONSTERY] = {
 int px[4] = {0,2,0,-2};
 int py[4] = {1,0,-1,0};
 
-monster::monster(int t) : type(t), cx(TILEX/2), cy(TILEY/2 + 1), sx(TILEX/2 - MONSTERX/2), sy(TILEY/2 - MONSTERY/2 + 1)
+monster::monster(int t) : type(t), position(TILEX/2, TILEY/2 + 1, TILEX/2 - MONSTERX/2, TILEY/2 - MONSTERY/2 + 1)
 {
 	dir = 0;
 	hp = t * t * 4 + 15 * t + 5;

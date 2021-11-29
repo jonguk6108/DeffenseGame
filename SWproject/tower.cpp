@@ -130,7 +130,7 @@ void tower::print_tower()
 {
 	for (int i = 0; i < TOWERY; i++)
 	{
-		gotoxy(get_sx(), get_sy() + i);
+		gotoxy(sx, sy + i);
 		for (int j = 0; j < TOWERX; j++)
 		{
 			ColorSet(tower_shape[level][j][i], 0);
@@ -143,8 +143,8 @@ void tower::print_tower()
 int tower::get_power() { return power; }
 int tower::get_latency() { return latency; }
 int tower::get_main_latency() { return main_latency; }
-int tower::getx() { return get_cx(); }
-int tower::gety() { return get_cy(); }
+int tower::getx() { return cx; }
+int tower::gety() { return cy; }
 int tower::get_original_x() { return ox; }
 int tower::get_original_y() { return oy; }
 int tower::get_range() { return range; }

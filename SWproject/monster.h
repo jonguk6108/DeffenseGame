@@ -1,10 +1,12 @@
 #pragma once
-	
-class monster
+
+#include "position.h"
+
+class monster : public position
 {
 private:
 	//center x, y, start x, y
-	int cx, cy, sx, sy, hp, latency, max_latency, type, dir;
+	int hp, latency, max_latency, type, dir;
 	
 public:
 	monster(int t);
